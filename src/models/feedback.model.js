@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import validator from "validator";
 
 const feedbackSchema = new mongoose.Schema(
     {
@@ -9,7 +10,14 @@ const feedbackSchema = new mongoose.Schema(
 
         email: {
             type: String,
-            required: true, 
+            required: true,
+            lowercase: true, 
+            trim: true,
+            validate(value) {
+                if(!validator.isEmail(value)){
+                    throw new Error("Email is not valid.");
+                };
+            } 
         },
 
         message: {
